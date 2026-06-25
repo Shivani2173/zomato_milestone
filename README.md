@@ -3,7 +3,7 @@
 An AI-powered restaurant recommendation web app that combines structured dataset filtering with Groq LLM-generated explanations.
 
 ## 🌐 Live Demo
-- **Frontend:** https://zomato-milestone.vercel.app *(coming soon)*
+- **Frontend:** https://zomato-milestone-six.vercel.app
 - **Backend API:** https://zomato-milestone-t73o.onrender.com
 - **API Docs (Swagger):** https://zomato-milestone-t73o.onrender.com/docs
 
