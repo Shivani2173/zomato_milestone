@@ -7,7 +7,7 @@
 // Auto-detect environment: use Render backend in production, localhost in dev
 const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://127.0.0.1:8000'
-  : 'https://zomato-ai-backend.onrender.com';
+  : 'https://zomato-milestone-t73o.onrender.com';
 
 // ─── Element refs ────────────────────────────────────────────────────────────
 const apiStatusEl    = document.getElementById('api-status');
