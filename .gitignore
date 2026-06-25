@@ -1,0 +1,31 @@
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environment variables (NEVER commit secrets)
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Data cache (large file — committed directly since <100 MB)
+# backend/data/zomato_cached.csv   ← kept in repo intentionally
+
+# Docs (optional — remove this line to include docs in repo)
+# docs/

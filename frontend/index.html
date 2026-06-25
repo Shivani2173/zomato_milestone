@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Zomato AI – Discover your next favourite meal powered by Groq AI and real restaurant data." />
+  <title>Zomato AI — Find Your Next Meal</title>
+
+  <!-- Google Fonts: Outfit + Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Emoji favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header id="site-header">
+    <div class="header-inner">
+      <span class="logo">🍽️ <span class="logo-text">Zomato AI</span></span>
+      <span class="api-status" id="api-status">
+        <span class="status-dot"></span>
+        <span class="status-label">Connecting…</span>
+      </span>
+    </div>
+  </header>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <main class="app-layout">
+
+    <!-- LEFT PANEL: Form -->
+    <section class="panel panel-form" aria-label="Preference Form">
+      <h1 class="form-title">Find My Restaurant</h1>
+      <p class="form-subtitle">Tell us what you're craving, and our AI will handle the rest.</p>
+
+      <form id="recommend-form" novalidate>
+
+        <!-- Location -->
+        <div class="field-group">
+          <label class="field-label" for="location">📍 Location</label>
+          <div class="select-wrapper">
+            <select id="location" name="location" required aria-required="true">
+              <option value="">— Select a neighbourhood —</option>
+            </select>
+            <span class="select-arrow">&#8964;</span>
+          </div>
+          <p class="field-error hidden" id="location-error">Please select a location.</p>
+        </div>
+
+        <!-- Cuisine -->
+        <div class="field-group">
+          <label class="field-label" for="cuisine">🍜 Cuisine</label>
+          <div class="select-wrapper">
+            <select id="cuisine" name="cuisine">
+              <option value="">— Any cuisine —</option>
+            </select>
+            <span class="select-arrow">&#8964;</span>
+          </div>
+        </div>
+
+        <!-- Budget -->
+        <div class="field-group">
+          <label class="field-label">💰 Budget</label>
+          <div class="budget-toggle" role="group" aria-label="Budget selection">
+            <button type="button" class="budget-btn" data-value="" id="budget-any">₹</button>
+            <button type="button" class="budget-btn active" data-value="low" id="budget-low">₹₹</button>
+            <button type="button" class="budget-btn" data-value="medium" id="budget-medium">₹₹₹</button>
+            <button type="button" class="budget-btn" data-value="high" id="budget-high">₹₹₹₹</button>
+          </div>
+          <input type="hidden" id="budget-value" name="budget" value="low" />
+        </div>
+
+        <!-- Minimum Rating -->
+        <div class="field-group">
+          <label class="field-label" for="min-rating">
+            ⭐ Minimum Rating
+            <span class="rating-badge" id="rating-display">3.5+</span>
+          </label>
+          <input
+            type="range"
+            id="min-rating"
+            name="min_rating"
+            min="0" max="5" step="0.5" value="3.5"
+            aria-label="Minimum rating"
+          />
+        </div>
+
+        <!-- Additional Preferences -->
+        <div class="field-group">
+          <label class="field-label" for="notes">🍱 Additional Preferences</label>
+          <div class="textarea-wrapper">
+            <textarea
+              id="notes"
+              name="notes"
+              rows="3"
+              maxlength="200"
+              placeholder="e.g. Quiet for a date, Rooftop seating, Pet friendly..."
+              aria-label="Additional preferences"
+            ></textarea>
+            <span class="char-count" id="char-count">0 / 200</span>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-primary" id="submit-btn">
+          <span class="btn-content">
+            <span class="btn-icon">⚡</span>
+            <span class="btn-text">Get AI Recommendations</span>
+          </span>
+          <span class="btn-spinner hidden" aria-hidden="true"></span>
+        </button>
+
+        <!-- Clear filters -->
+        <button type="button" class="btn-clear" id="clear-btn">Clear all filters</button>
+
+      </form>
+    </section>
+
+    <!-- DIVIDER -->
+    <div class="panel-divider" aria-hidden="true"></div>
+
+    <!-- RIGHT PANEL: Results -->
+    <section class="panel panel-results" aria-label="Recommendation Results" aria-live="polite">
+
+      <!-- Initial / empty state -->
+      <div class="results-empty" id="results-empty">
+        <div class="empty-icon-ring">
+          <span class="empty-icon">✦✦</span>
+        </div>
+        <p class="empty-heading">🤖 ✨ Your AI picks will appear here</p>
+        <p class="empty-sub">Fill out the preferences on the left to discover curated dining experiences tailored just for you.</p>
+      </div>
+
+      <!-- Skeleton loaders (shown while loading) -->
+      <div class="results-skeletons hidden" id="results-skeletons" aria-busy="true" aria-label="Loading recommendations">
+        <div class="skeleton-card"><div class="sk sk-title"></div><div class="sk sk-tags"></div><div class="sk sk-line"></div><div class="sk sk-line sk-line--short"></div><div class="sk sk-line"></div></div>
+        <div class="skeleton-card"><div class="sk sk-title"></div><div class="sk sk-tags"></div><div class="sk sk-line"></div><div class="sk sk-line sk-line--short"></div><div class="sk sk-line"></div></div>
+        <div class="skeleton-card"><div class="sk sk-title"></div><div class="sk sk-tags"></div><div class="sk sk-line"></div><div class="sk sk-line sk-line--short"></div><div class="sk sk-line"></div></div>
+      </div>
+
+      <!-- Zero results message -->
+      <div class="results-zero hidden" id="results-zero">
+        <span class="zero-icon">🔍</span>
+        <p class="zero-heading">No restaurants found</p>
+        <p class="zero-sub">Try relaxing your filters — a wider location, different cuisine, or lower minimum rating.</p>
+      </div>
+
+      <!-- Recommendation cards -->
+      <div class="results-cards hidden" id="results-cards"></div>
+
+    </section>
+  </main>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container" aria-live="assertive"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

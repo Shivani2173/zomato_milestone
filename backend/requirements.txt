@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+pandas
+groq
+python-dotenv
+datasets
+pydantic
+pyarrow
+python-multipart
