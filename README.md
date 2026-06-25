@@ -3,9 +3,9 @@
 An AI-powered restaurant recommendation web app that combines structured dataset filtering with Groq LLM-generated explanations.
 
 ## 🌐 Live Demo
-- **Frontend:** https://zomato-ai-recommender.vercel.app
-- **Backend API:** https://zomato-ai-backend.onrender.com
-- **API Docs:** https://zomato-ai-backend.onrender.com/docs
+- **Frontend:** https://zomato-milestone.vercel.app *(coming soon)*
+- **Backend API:** https://zomato-milestone-t73o.onrender.com
+- **API Docs (Swagger):** https://zomato-milestone-t73o.onrender.com/docs
 
 ## 🏗️ Tech Stack
 | Layer | Technology |
